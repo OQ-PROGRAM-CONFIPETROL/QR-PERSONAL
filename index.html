@@ -54,7 +54,7 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 // ⚠️ Pega aquí TU URL real de Apps Script
-const API = "https://script.google.com/macros/s/AKfycbxyCJlFJYWCKP622bg07qYsq8-hLgGorMXBDrcP-midme0kV3DEUC10VA66hfUW3RUwBQ/exec";
+const API = "https://script.google.com/macros/s/AKfycbyP0POtIMeWGFXSOdl000ADfZqlEWYJJJNILHN5tZbZXOoau_9_hOeYmXkVBYP4LkwA/exec";
 
 fetch(API + "?id=" + id)
   .then(res => res.json())
