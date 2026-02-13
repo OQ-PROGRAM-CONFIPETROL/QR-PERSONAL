@@ -43,13 +43,18 @@ h2 {
 <div class="item"><span class="label">Capacitación vigente:</span> <span id="cap"></span></div>
 <div class="item"><span class="label">Fecha de realización:</span> <span id="fecha"></span></div>
 </div>
+<div class="item"><span class="label">Capacitaciones realizadas:</span> <span id="totalCaps"></span></div>
+<div class="item">
+  <span class="label">Detalle:</span>
+  <ul id="listaCaps" style="margin:8px 0 0 18px;"></ul>
+</div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 // ⚠️ Pega aquí TU URL real de Apps Script
-const API = "https://script.google.com/macros/s/AKfycbzpf2XI1XBClY-b3ugR77uTtXJbgrqe02BXzs4zgYDw6YzvmBoWs16f9s1Sh7oZOTvvgQ/exec";
+const API = "https://script.google.com/macros/s/AKfycbxyCJlFJYWCKP622bg07qYsq8-hLgGorMXBDrcP-midme0kV3DEUC10VA66hfUW3RUwBQ/exec";
 
 fetch(API + "?id=" + id)
   .then(res => res.json())
@@ -71,6 +76,34 @@ document.getElementById("fecha").textContent =
     alert("Error conectando con la base de datos");
     console.error(err);
   });
+
+ document.getElementById("totalCaps").textContent = data.TotalCapacitaciones ?? 0;
+
+const ul = document.getElementById("listaCaps");
+ul.innerHTML = "";
+
+if (data.Capacitaciones && data.Capacitaciones.length) {
+  data.Capacitaciones.forEach(c => {
+    const li = document.createElement("li");
+
+    // Formato fecha dd/mm/aaaa
+    let fechaTxt = "";
+    if (c.Fecha) {
+      const d = new Date(c.Fecha);
+      fechaTxt = isNaN(d.getTime())
+        ? String(c.Fecha)
+        : d.toLocaleDateString("es-CO");
+    }
+
+    li.textContent = fechaTxt ? `${c.Nombre} — ${fechaTxt}` : c.Nombre;
+    ul.appendChild(li);
+  });
+} else {
+  const li = document.createElement("li");
+  li.textContent = "Sin capacitaciones registradas.";
+  ul.appendChild(li);
+}
+
 </script>
 
 </body>
