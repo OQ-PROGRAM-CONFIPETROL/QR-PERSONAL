@@ -1,111 +1,242 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Ficha del trabajador</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Programa de Calificación del Personal</title>
 
-<style>
- body {
-    font-family: Arial;
-    background: #0C2340; /* Pantone 289 C*/
-    padding: 20px;
-  }
-.card {
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  max-width:400px;
-  margin:auto;
-  box-shadow:0 0 10px rgba(0,0,0,0.2);
-}
-h2 {
-  text-align:center;
-}
-.item {
-  margin:10px 0;
-}
-.label {
-  font-weight:bold;
-}
-</style>
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:#0b2340;
+      color:#111;
+      padding:24px;
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+    }
+    .logo{
+      display:flex;
+      justify-content:center;
+      margin:10px 0 22px;
+    }
+    .logo img{
+      max-width:220px;
+      background:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+    }
+    .card{
+      background:#fff;
+      border-radius:18px;
+      padding:26px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      max-width:720px;
+      margin:0 auto;
+    }
+    h1{
+      margin:6px 0 18px;
+      text-align:center;
+      font-size:30px;
+      letter-spacing:.5px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      margin:10px 0;
+      font-size:18px;
+      line-height:1.3;
+    }
+    .label{
+      font-weight:800;
+      min-width:130px;
+    }
+    .divider{
+      height:1px;
+      background:#e7e7e7;
+      margin:18px 0;
+    }
+
+    .capsHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .capsHeader h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.5px;
+    }
+    .badge{
+      background:#0b2340;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:14px;
+    }
+
+    ul{
+      margin:14px 0 0 18px;
+      padding:0;
+    }
+    li{
+      margin:10px 0;
+      font-size:16px;
+    }
+    .capName{
+      font-weight:800;
+    }
+    .capDate{
+      color:#333;
+      font-size:14px;
+      margin-top:2px;
+    }
+
+    .state{
+      margin-top:16px;
+      font-size:14px;
+      color:#444;
+      text-align:center;
+    }
+
+    .errorBox{
+      background:#fff3f3;
+      border:1px solid #ffbdbd;
+      color:#9a1b1b;
+      padding:14px 16px;
+      border-radius:12px;
+      margin-top:12px;
+      font-weight:700;
+    }
+  </style>
 </head>
 
 <body>
-<div style="text-align:center; margin-bottom:15px;">
-  <img src="imagen confi.png" alt="Logo empresa" style="max-width:180px;">
-</div>
-<div class="card">
-  <h2>PROGRAMA DE CALIFICACION DEL PERSONAL</h2>
-<div class="item"><span class="label">Nombre:</span> <span id="nombre"></span></div>
-<div class="item"><span class="label">Documento:</span> <span id="doc"></span></div>
-<div class="item"><span class="label">Cargo:</span> <span id="cargo"></span></div>
-    <h2>CAPACITACIONES VIGENTES:</h2>
-<div class="item"><span class="label">Capacitación vigente:</span> <span id="cap"></span></div>
-<div class="item"><span class="label">Fecha de realización:</span> <span id="fecha"></span></div>
-</div>
-<div class="item"><span class="label">Capacitaciones realizadas:</span> <span id="totalCaps"></span></div>
-<div class="item">
-  <span class="label">Detalle:</span>
-  <ul id="listaCaps" style="margin:8px 0 0 18px;"></ul>
-</div>
+  <div class="wrap">
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+    <div class="logo">
+      <!-- Cambia el nombre si tu logo se llama distinto en el repo -->
+      <img src="logo.png" alt="CONFIPETROL">
+    </div>
 
-// ⚠️ Pega aquí TU URL real de Apps Script
-const API = "https://script.google.com/macros/s/AKfycbyP0POtIMeWGFXSOdl000ADfZqlEWYJJJNILHN5tZbZXOoau_9_hOeYmXkVBYP4LkwA/exec";
+    <div class="card">
+      <h1>PROGRAMA DE CALIFICACIÓN<br/>DEL PERSONAL</h1>
 
-fetch(API + "?id=" + id)
-  .then(res => res.json())
-  .then(data => {
-    if (data.error) {
-      alert(data.error);
-      return;
-    }
-document.getElementById("nombre").textContent = data.Nombre;
-document.getElementById("doc").textContent = data.Documento;
-document.getElementById("cargo").textContent = data.Cargo;
-document.getElementById("cap").textContent = data.Capacitacion;
-const fecha = new Date(data.Fecha);
-document.getElementById("fecha").textContent = 
-  fecha.toLocaleDateString("es-CO");
+      <div class="row"><div class="label">Nombre:</div> <div id="nombre">—</div></div>
+      <div class="row"><div class="label">Documento:</div> <div id="documento">—</div></div>
+      <div class="row"><div class="label">Cargo:</div> <div id="cargo">—</div></div>
 
-  })
-  .catch(err => {
-    alert("Error conectando con la base de datos");
-    console.error(err);
-  });
+      <div class="divider"></div>
 
- document.getElementById("totalCaps").textContent = data.TotalCapacitaciones ?? 0;
+      <div class="capsHeader">
+        <h2>CAPACITACIONES VIGENTES</h2>
+        <div class="badge" id="badgeCaps">0 registradas</div>
+      </div>
 
-const ul = document.getElementById("listaCaps");
-ul.innerHTML = "";
+      <ul id="listaCaps"></ul>
 
-if (data.Capacitaciones && data.Capacitaciones.length) {
-  data.Capacitaciones.forEach(c => {
-    const li = document.createElement("li");
+      <div id="error" class="errorBox" style="display:none;"></div>
+      <div class="state" id="state"></div>
+    </div>
 
-    // Formato fecha dd/mm/aaaa
-    let fechaTxt = "";
-    if (c.Fecha) {
-      const d = new Date(c.Fecha);
-      fechaTxt = isNaN(d.getTime())
-        ? String(c.Fecha)
-        : d.toLocaleDateString("es-CO");
+  </div>
+
+  <script>
+    // 1) Leer id desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    // 2) PON AQUÍ TU URL DEL APPS SCRIPT (termina en /exec)
+    const API_BASE = "https://script.google.com/macros/s/AKfycbyP0POtIMeWGFXSOdl000ADfZqlEWYJJJNILHN5tZbZXOoau_9_hOeYmXkVBYP4LkwA/exec"; // <-- EJ: https://script.google.com/macros/s/XXXX/exec
+
+    function showError(msg){
+      const box = document.getElementById("error");
+      box.style.display = "block";
+      box.textContent = msg;
     }
 
-    li.textContent = fechaTxt ? `${c.Nombre} — ${fechaTxt}` : c.Nombre;
-    ul.appendChild(li);
-  });
-} else {
-  const li = document.createElement("li");
-  li.textContent = "Sin capacitaciones registradas.";
-  ul.appendChild(li);
-}
-if (capName && String(capName).trim() !== "") {
+    if (!id) {
+      showError("Falta el parámetro id en la URL. Ej: ?id=001");
+    } else {
+      fetch(`${API_BASE}?id=${encodeURIComponent(id)}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.error) {
+            showError(data.error);
+            return;
+          }
 
-</script>
+          // Datos básicos
+          document.getElementById("nombre").textContent = data.Nombre ?? "—";
+          document.getElementById("documento").textContent = data.Documento ?? "—";
+          document.getElementById("cargo").textContent = data.Cargo ?? "—";
 
+          // Capacitaciones
+          const caps = Array.isArray(data.Capacitaciones) ? data.Capacitaciones : [];
+          const total = data.TotalCapacitaciones ?? caps.length ?? 0;
+
+          document.getElementById("badgeCaps").textContent = `${total} registradas`;
+
+          const ul = document.getElementById("listaCaps");
+          ul.innerHTML = "";
+
+          if (!caps.length) {
+            const li = document.createElement("li");
+            li.textContent = "Sin capacitaciones registradas.";
+            ul.appendChild(li);
+          } else {
+            // Ordenar por fecha (si hay), de más reciente a más antigua.
+            // Como la fecha viene "dd/MM/yyyy", la convertimos a yyyy-MM-dd para ordenar.
+            const parseDDMMYYYY = (s) => {
+              if (!s) return null;
+              const m = String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+              if (!m) return null;
+              return new Date(`${m[3]}-${m[2]}-${m[1]}T00:00:00`);
+            };
+
+            caps.sort((a,b)=>{
+              const da = parseDDMMYYYY(a.Fecha);
+              const db = parseDDMMYYYY(b.Fecha);
+              if (!da && !db) return 0;
+              if (!da) return 1;
+              if (!db) return -1;
+              return db - da;
+            });
+
+            caps.forEach(c => {
+              const li = document.createElement("li");
+
+              const nameDiv = document.createElement("div");
+              nameDiv.className = "capName";
+              nameDiv.textContent = c.Nombre ?? "";
+
+              li.appendChild(nameDiv);
+
+              if (c.Fecha) {
+                const dateDiv = document.createElement("div");
+                dateDiv.className = "capDate";
+                dateDiv.textContent = `Fecha: ${c.Fecha}`;
+                li.appendChild(dateDiv);
+              }
+
+              ul.appendChild(li);
+            });
+          }
+
+          document.getElementById("state").textContent =
+            "Información consultada desde la base de datos corporativa (QR OQ-PROGRAM).";
+        })
+        .catch(err => {
+          console.error(err);
+          showError("No fue posible consultar la base de datos. Revisa la URL del Apps Script y el despliegue.");
+        });
+    }
+  </script>
 </body>
 </html>
