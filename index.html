@@ -222,30 +222,6 @@ if (!caps.length) {
     ul.appendChild(li);
   });
 
-caps.forEach(c => {
-
-  const li = document.createElement("li");
-
-  const link = document.createElement("a");
-  link.textContent = c.Nombre;
-  link.href = c.Certificado || "#";
-  link.target = "_blank";
-
-  link.style.fontWeight = "bold";
-  link.style.textDecoration = "none";
-  link.style.color = "#0b2340";
-
-  li.appendChild(link);
-
-  if (c.Fecha) {
-    const fecha = document.createElement("div");
-    fecha.textContent = "Fecha: " + c.Fecha;
-    fecha.style.fontSize = "12px";
-    li.appendChild(fecha);
-  }
-
-  ul.appendChild(li);
-});
           }
 
           document.getElementById("state").textContent =
