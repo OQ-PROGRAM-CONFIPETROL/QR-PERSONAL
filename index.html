@@ -190,8 +190,11 @@
           document.getElementById("nombre").textContent = data.Nombre ?? "—";
           document.getElementById("documento").textContent = data.Documento ?? "—";
           document.getElementById("cargo").textContent = data.Cargo ?? "—";
-          if (data.Foto && data.Foto.trim() !== "") {
-  document.getElementById("foto").src = data.Foto.trim();
+          
+const foto = data.Foto ? data.Foto.trim() : "";
+
+if (foto.startsWith("http")) {
+  document.getElementById("foto").src = foto;
 } else {
   document.getElementById("foto").style.display = "none";
 }
