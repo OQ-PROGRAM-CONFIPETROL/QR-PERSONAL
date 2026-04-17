@@ -184,30 +184,43 @@
           document.getElementById("badgeCaps").textContent = `${total} registradas`;
 
           const ul = document.getElementById("listaCaps");
-          ul.innerHTML = "";
+ul.innerHTML = "";
 
-          if (!caps.length) {
-            const li = document.createElement("li");
-            li.textContent = "Sin capacitaciones registradas.";
-            ul.appendChild(li);
-          } else {
-            // Ordenar por fecha (si hay), de más reciente a más antigua.
-            // Como la fecha viene "dd/MM/yyyy", la convertimos a yyyy-MM-dd para ordenar.
-            const parseDDMMYYYY = (s) => {
-              if (!s) return null;
-              const m = String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-              if (!m) return null;
-              return new Date(`${m[3]}-${m[2]}-${m[1]}T00:00:00`);
-            };
+if (!caps.length) {
+  const li = document.createElement("li");
+  li.textContent = "Sin capacitaciones registradas.";
+  ul.appendChild(li);
+} else {
+  caps.forEach(c => {
+    const li = document.createElement("li");
 
-            caps.sort((a,b)=>{
-              const da = parseDDMMYYYY(a.Fecha);
-              const db = parseDDMMYYYY(b.Fecha);
-              if (!da && !db) return 0;
-              if (!da) return 1;
-              if (!db) return -1;
-              return db - da;
-            });
+    if (c.Certificado && c.Certificado.trim() !== "") {
+      const link = document.createElement("a");
+      link.textContent = c.Nombre;
+      link.href = c.Certificado.trim();
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.style.fontWeight = "bold";
+      link.style.color = "#0b2340";
+      link.style.textDecoration = "none";
+      li.appendChild(link);
+    } else {
+      const span = document.createElement("span");
+      span.textContent = c.Nombre;
+      span.style.fontWeight = "bold";
+      li.appendChild(span);
+    }
+
+    if (c.Fecha) {
+      const fechaDiv = document.createElement("div");
+      fechaDiv.textContent = "Fecha: " + c.Fecha;
+      fechaDiv.style.fontSize = "14px";
+      fechaDiv.style.marginTop = "2px";
+      li.appendChild(fechaDiv);
+    }
+
+    ul.appendChild(li);
+  });
 
 caps.forEach(c => {
 
