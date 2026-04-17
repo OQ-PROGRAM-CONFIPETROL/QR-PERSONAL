@@ -114,6 +114,19 @@
       margin-top:12px;
       font-weight:700;
     }
+    .fotoBox{
+  display:flex;
+  justify-content:center;
+  margin-bottom:15px;
+}
+
+.fotoBox img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid #0b2340;
+}
   </style>
 </head>
 
@@ -127,7 +140,8 @@
 
     <div class="card">
       <h1>PROGRAMA DE CALIFICACIÓN<br/>DEL PERSONAL</h1>
-
+      
+      <div class="fotoBox"><img id="foto" src="" alt="Foto trabajador" /></div>
       <div class="row"><div class="label">Nombre:</div> <div id="nombre">—</div></div>
       <div class="row"><div class="label">Documento:</div> <div id="documento">—</div></div>
       <div class="row"><div class="label">Cargo:</div> <div id="cargo">—</div></div>
@@ -176,6 +190,11 @@
           document.getElementById("nombre").textContent = data.Nombre ?? "—";
           document.getElementById("documento").textContent = data.Documento ?? "—";
           document.getElementById("cargo").textContent = data.Cargo ?? "—";
+          if (data.Foto && data.Foto.trim() !== "") {
+  document.getElementById("foto").src = data.Foto.trim();
+} else {
+  document.getElementById("foto").style.display = "none";
+}
 
           // Capacitaciones
           const caps = Array.isArray(data.Capacitaciones) ? data.Capacitaciones : [];
