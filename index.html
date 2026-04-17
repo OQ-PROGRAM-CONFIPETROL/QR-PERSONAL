@@ -140,8 +140,8 @@
 
     <div class="card">
       <h1>PROGRAMA DE CALIFICACIÓN<br/>DEL PERSONAL</h1>
-      
-      <div class="fotoBox"><img id="foto" src="" alt="Foto trabajador" /></div>
+
+      <div class="fotoBox"> <img id="foto" src="" alt="" /></div>
       <div class="row"><div class="label">Nombre:</div> <div id="nombre">—</div></div>
       <div class="row"><div class="label">Documento:</div> <div id="documento">—</div></div>
       <div class="row"><div class="label">Cargo:</div> <div id="cargo">—</div></div>
@@ -191,14 +191,19 @@
           document.getElementById("documento").textContent = data.Documento ?? "—";
           document.getElementById("cargo").textContent = data.Cargo ?? "—";
           
+const fotoEl = document.getElementById("foto");
 const foto = data.Foto ? data.Foto.trim() : "";
 
-if (foto.startsWith("http")) {
-  document.getElementById("foto").src = foto;
+if (foto && foto.startsWith("http")) {
+  fotoEl.src = foto;
+  fotoEl.style.display = "block";
 } else {
-  document.getElementById("foto").style.display = "none";
+  fotoEl.removeAttribute("src");
+  fotoEl.style.display = "none";
 }
+console.log("Foto recibida:", data.Foto);
 
+          
           // Capacitaciones
           const caps = Array.isArray(data.Capacitaciones) ? data.Capacitaciones : [];
           const total = data.TotalCapacitaciones ?? caps.length ?? 0;
