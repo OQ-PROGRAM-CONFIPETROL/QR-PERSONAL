@@ -209,24 +209,30 @@
               return db - da;
             });
 
-            caps.forEach(c => {
-              const li = document.createElement("li");
+caps.forEach(c => {
 
-              const nameDiv = document.createElement("div");
-              nameDiv.className = "capName";
-              nameDiv.textContent = c.Nombre ?? "";
+  const li = document.createElement("li");
 
-              li.appendChild(nameDiv);
+  const link = document.createElement("a");
+  link.textContent = c.Nombre;
+  link.href = c.Certificado || "#";
+  link.target = "_blank";
 
-              if (c.Fecha) {
-                const dateDiv = document.createElement("div");
-                dateDiv.className = "capDate";
-                dateDiv.textContent = `Fecha: ${c.Fecha}`;
-                li.appendChild(dateDiv);
-              }
+  link.style.fontWeight = "bold";
+  link.style.textDecoration = "none";
+  link.style.color = "#0b2340";
 
-              ul.appendChild(li);
-            });
+  li.appendChild(link);
+
+  if (c.Fecha) {
+    const fecha = document.createElement("div");
+    fecha.textContent = "Fecha: " + c.Fecha;
+    fecha.style.fontSize = "12px";
+    li.appendChild(fecha);
+  }
+
+  ul.appendChild(li);
+});
           }
 
           document.getElementById("state").textContent =
